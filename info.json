@@ -1,0 +1,10 @@
+{
+  "name": "searching-flashlight",
+  "version": "1.0.0",
+  "title": "Searching flashlight",
+  "author": "rk84",
+  "contact": "www.factorioforums.com",
+  "description": "Search with flashlight.",
+  "dependencies": ["base"],
+  "license": "MIT"
+} 
