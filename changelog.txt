@@ -1,2 +1,6 @@
+1.0.1
+Fix for offline players
+Fixed direction clamping
+
 1.0.0
 -first release
