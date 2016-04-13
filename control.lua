@@ -13,8 +13,9 @@ script.on_event(defines.events.on_tick, function(event)
          
         angle = math.atan2(players[i].position.y - players[i].selected.position.y, players[i].position.x - players[i].selected.position.x)
         angle = (angle/math.pi + 1)*4 - 5.5
-        angle = angle < 0 and 7 or angle
-        players[i].character.direction = angle > 7 and 0 or angle
+        angle = angle < 0 and angle + 8 or angle
+        angle = angle >= 8 and angle - 8 or angle
+        players[i].character.direction = math.floor(angle)
       end
     end
   end
