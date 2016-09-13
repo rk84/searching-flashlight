@@ -1,22 +1,38 @@
-require "defines"
+-- luacheck: globals game script defines
 
-MOD = { NAME = "Searching flashlight", IF = "sf" }
+local function worth_processing( player )
+  return player.valid and player.connected --> player in game
+     and not player.vehicle --> not driving a vehicle
+     and player.selected --> they selected a target
+     and player.character and player.character.valid --> they have valid avatar
+     and not player.walking_state.walking --> which is not moving
+end
 
-script.on_event(defines.events.on_tick, function(event)
-  if event.tick % 10 == 0 then
-    local angle = 0
-    local math = math
-    local players = game.players
-    for i=1, #players do
-      if players[i].connected and not players[i].vehicle and players[i].selected
-         and players[i].character and not players[i].walking_state.walking then
-         
-        angle = math.atan2(players[i].position.y - players[i].selected.position.y, players[i].position.x - players[i].selected.position.x)
-        angle = (angle/math.pi + 1)*4 - 5.5
-        angle = angle < 0 and angle + 8 or angle
-        angle = angle >= 8 and angle - 8 or angle
-        players[i].character.direction = math.floor(angle)
+local atan2     , pi     , floor
+    = math.atan2, math.pi, math.floor
+
+local function orient_players( event )
+  if event.tick % 30 == 0 then -- update twice per second
+
+    for _, player in pairs( game.players ) do
+      if worth_processing( player ) then
+
+        local location = player.position          --> where the player is
+        local target   = player.selected.position --> what they should be looking at
+
+        local angle = atan2(location.y - target.y, location.x - target.x)
+              angle = (angle/pi + 1)*4 - 5.5
+              angle = angle <  0 and angle + 8 or angle
+              angle = angle >= 8 and angle - 8 or angle
+
+        player.character.direction = floor(angle)
+        -- should probably also set player.character.orientation for smoother
+        -- direction but that will require more math...?
+
       end
-    end
+    end--for player
+
   end
-end)
+end
+
+script.on_event( defines.events.on_tick, orient_players )
