@@ -1,11 +1,11 @@
 {
   "name": "searching-flashlight",
   "version": "1.1.0",
-  "title": "Searching Flashlight v1.1.0",
+  "title": "Searching Flashlight",
   "author": "rk84",
   "homepage": "https://forums.factorio.com/viewtopic.php?f=144&t=20712",
   "description": "If standing still, you will automatically turn to face any entity you select on the map.",
-  "dependencies": ["base >= 0.14.0"],
+  "dependencies": ["base >= 0.14.6"],
   "factorio_version": "0.14",
   "license": "MIT"
 } 
